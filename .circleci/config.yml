@@ -5,11 +5,12 @@ orbs:
   kubernetes: circleci/kubernetes@0.11.2
 jobs:
   checking-vars:
-    steps:
-      - run:
-          name: Test
-          command: |
-            echo $ACCESS_KEY_ID
+    executor: aws-eks/python3
+      steps:
+        - run:
+            name: Test
+            command: |
+              echo $ACCESS_KEY_ID
           
 workflows:
   build_and_push_image:
