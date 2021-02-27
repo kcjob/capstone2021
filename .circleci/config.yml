@@ -73,8 +73,8 @@ jobs:
 workflows:
   main:
     jobs:
-      #- aws-eks/create-cluster:
-      #    cluster-name: capstone
+      - aws-eks/create-cluster:
+          cluster-name: capstone
       #- check-cluster:
       #    cluster-name: capstone
       #    requires:
