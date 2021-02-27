@@ -74,7 +74,9 @@ jobs:
           when: on_fail
           command:
             echo "Canceling workflow as a step resulted in failure"
-            eksctl delete cluster --name capstone --region us-east-1      
+            eksctl delete cluster --name capstone --region us-east-1
+            aws ecr batch-delete-image --repository-name capstone --image-ids imageTag=latest
+            aws ecr delete-repository --repository-name capstone --force
 
 workflows:
   main:
