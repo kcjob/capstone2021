@@ -30,3 +30,4 @@ workflows:
           repo: capstone
           skip-when-tags-exist: false
           tag: 'latest,capstone'
+
