@@ -4,103 +4,20 @@ orbs:
   aws-ecr: circleci/aws-ecr@6.15.3
   kubernetes: circleci/kubernetes@0.11.2
 
-jobs:
-  #check-cluster:
-  #  executor: aws-eks/python3
-  #  parameters:
-  #    cluster-name:
-  #      description: |
-  #        Name of the EKS cluster
-  #      type: string
-  #  steps:
-  #    - kubernetes/install
-  #    - aws-eks/update-kubeconfig-with-authenticator:
-  #        cluster-name: << parameters.cluster-name >>
-  #    - run:
-  #        name: test-cluster
-  #        command: |
-  #          kubectl get services
-
-  deploy-application:
-    executor: aws-eks/python3
-    parameters:
-      cluster-name:
-        description: |
-          Name of the EKS cluster
-        type: string
-      aws-region:
-        description: |
-          AWS region
-        type: string
-      account-url:
-        description: |
-          Docker AWS ECR repository url
-        type: string
-      tag:
-        description: |
-          Docker image tag
-        type: string
-    steps:
-      - checkout
-      - run:
-          name: Replace placeholders with values in deployment template
-          command: |
-            cat k8s/deployment.tpl |\
-            sed "s|DOCKER_REPO_NAME|<< parameters.account-url >>|" |\
-            sed "s|DOCKER_IMAGE_TAG|<< parameters.tag >>|" > k8s/deployment.yaml; \
-            cat k8s/deployment.yaml
-      - aws-eks/update-kubeconfig-with-authenticator:
-          cluster-name: << parameters.cluster-name >>
-          install-kubectl: true
-          aws-region: << parameters.aws-region >>
-      - kubernetes/create-or-update-resource:
-          action-type: apply
-          resource-file-path: "k8s/namespace.yaml"
-          show-kubectl-command: true
-      - kubernetes/create-or-update-resource:
-          action-type: apply
-          resource-file-path: "k8s/deployment.yaml"
-          show-kubectl-command: true
-          get-rollout-status: true
-          resource-name: deployment/capstone
-          namespace: capstone
-      #- kubernetes/create-or-update-resource:
-      #    action-type: apply
-      #    resource-file-path: "k8s/service.yaml"
-      #    show-kubectl-command: true
-      #    namespace: capstone
-      - run:
-          name: job failed
-          when: on_fail
-          command:
-            echo "Canceling workflow as a step resulted in failure"
-            eksctl delete cluster --name capstone --region us-east-1      
-
 workflows:
   main:
     jobs:
-      - aws-eks/create-cluster:
-          cluster-name: capstone
-      #- check-cluster:
-      #    cluster-name: capstone
-      #    requires:
-      #      - aws-eks/create-cluster
       - aws-ecr/build-and-push-image:
-          aws-access-key-id: AWS_ACCESS_KEY_ID
-          aws-secret-access-key: AWS_SECRET_ACCESS_KEY
-          region: AWS_DEFAULT_REGION
           account-url: AWS_ECR_ACCOUNT_URL
-          repo: capstone
+          aws-access-key-id: ACCESS_KEY_ID
+          aws-secret-access-key: SECRET_ACCESS_KEY
+          context: myContext
           create-repo: true
           dockerfile: Dockerfile
           path: .circleci/dockerstuff
-          tag: ${CIRCLE_SHA1}
-          requires:
-            - aws-eks/create-cluster
-      - deploy-application:
-          cluster-name: capstone
-          aws-region: us-east-1
-          account-url: ${AWS_ECR_ACCOUNT_URL}
-          tag: ${CIRCLE_SHA1}
-          requires:
-            - aws-ecr/build-and-push-image
+          no-output-timeout: 20m
+          profile-name: circleci
+          region: AWS_REGION
+          repo: capstone
+          skip-when-tags-exist: false
+          tag: 'latest,capstone
