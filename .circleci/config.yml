@@ -15,18 +15,18 @@ jobs:
             echo $(AWS_REGION}
             echo {AWS_PROFILE}
             VERBOSE="3"
-            if [ -n "${CLUSTER_NAME}" ]; then
-              set -- "$@" --name "${CLUSTER_NAME}"
-            fi
-            if [ -n "${AWS_REGION}" ]; then
-              set -- "$@" --region "${AWS_REGION}"
-            fi
-            if [ -n "${AWS_PROFILE}" ]; then
-              set -- "$@" --profile="${AWS_PROFILE}"
-            fi
-            set -- "$@" --verbose ${VERBOSE}
+            #if [ -n "${CLUSTER_NAME}" ]; then
+            #  set -- "$@" --name "${CLUSTER_NAME}"
+            #fi
+            #if [ -n "${AWS_REGION}" ]; then
+            #  set -- "$@" --region "${AWS_REGION}"
+            #fi
+            #if [ -n "${AWS_PROFILE}" ]; then
+            #  set -- "$@" --profile="${AWS_PROFILE}"
+            #fi
+            #set -- "$@" --verbose ${VERBOSE}
 
-            echo $@
+            echo ${@}
 workflows:
   main:
     jobs:
