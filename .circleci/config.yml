@@ -6,11 +6,11 @@ orbs:
 jobs:
   checking-vars:
     executor: aws-eks/python3
-      steps:
-        - run:
-            name: Test
-            command: |
-              echo $ACCESS_KEY_ID
+    steps:
+      - run:
+          name: Test
+          command: |
+            echo $ACCESS_KEY_ID
           
 workflows:
   build_and_push_image:
