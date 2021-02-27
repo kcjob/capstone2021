@@ -5,32 +5,29 @@ orbs:
   kubernetes: circleci/kubernetes@0.11.2
 
 jobs:
-  test-cluster:
+  show-cluster:
     executor: aws-eks/python3
-    parameters:
-      cluster-name:
-        description: |
-          Name of the EKS cluster
-        type: string
     steps:
-      - kubernetes/install
-      - aws-eks/update-kubeconfig-with-authenticator:
-          cluster-name: << parameters.cluster-name >>
       - run:
+          name: show variables
           command: |
-          name: Test cluster
-            kubectl get services
+            CLUSTER_NAME="my-eks-demo"
+            echo $(AWS_REGION}
+            echo {AWS_PROFILE}
+            VERBOSE="3"
+            if [ -n "${CLUSTER_NAME}" ]; then
+              set -- "$@" --name "${CLUSTER_NAME}"
+            fi
+            if [ -n "${AWS_REGION}" ]; then
+              set -- "$@" --region "${AWS_REGION}"
+            fi
+            if [ -n "${AWS_PROFILE}" ]; then
+              set -- "$@" --profile="${AWS_PROFILE}"
+            fi
+            set -- "$@" --verbose ${VERBOSE}
 
+            echo $@
 workflows:
   main:
     jobs:
-      - aws-eks/create-cluster:
-          cluster-name: my-eks-demo
-      - test-cluster:
-          cluster-name: my-eks-demo
-          requires:
-            - aws-eks/create-cluster
-      - aws-eks/delete-cluster:
-          cluster-name: my-eks-demo
-          requires:
-            - test-cluster
+      - show-cluster
