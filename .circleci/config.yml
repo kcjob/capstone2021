@@ -13,9 +13,9 @@ jobs:
           name: show variables
           command: |
             CLUSTER_NAME="my-eks-demo"
-            echo "cluster name: " $CLUSTER_NAME
-            echo ${AWS_REGION}
-            echo {AWS_PROFILE}
+            echo "cluster name: " ${CLUSTER_NAME}
+            echo "aws region: " ${AWS_REGION}
+            echo "aws profile: " ${AWS_PROFILE}
             VERBOSE="3"
             #if [ -n "${CLUSTER_NAME}" ]; then
             #  set -- "$@" --name "${CLUSTER_NAME}"
