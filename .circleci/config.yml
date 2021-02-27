@@ -8,10 +8,12 @@ jobs:
   show-cluster:
     executor: aws-eks/python3
     steps:
+      - checkout
       - run:
           name: show variables
           command: |
             CLUSTER_NAME="my-eks-demo"
+            echo "cluster name: " $CLUSTER_NAME
             echo ${AWS_REGION}
             echo {AWS_PROFILE}
             VERBOSE="3"
