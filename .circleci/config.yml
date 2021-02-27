@@ -12,7 +12,7 @@ jobs:
           name: show variables
           command: |
             CLUSTER_NAME="my-eks-demo"
-            echo $(AWS_REGION}
+            echo ${AWS_REGION}
             echo {AWS_PROFILE}
             VERBOSE="3"
             #if [ -n "${CLUSTER_NAME}" ]; then
