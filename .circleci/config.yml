@@ -69,6 +69,12 @@ jobs:
       #    resource-file-path: "k8s/service.yaml"
       #    show-kubectl-command: true
       #    namespace: capstone
+      - run:
+          name: job failed
+          when: on_fail
+          command:
+            echo "Canceling workflow as a step resulted in failure"
+            eksctl delete cluster --name capstone --region us-east-1      
 
 workflows:
   main:
