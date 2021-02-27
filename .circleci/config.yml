@@ -19,7 +19,7 @@ jobs:
   #    - run:
   #        name: test-cluster
   #        command: |
-            kubectl get services
+  #          kubectl get services
 
   deploy-application:
     executor: aws-eks/python3
