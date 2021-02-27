@@ -20,4 +20,4 @@ workflows:
           region: AWS_REGION
           repo: capstone
           skip-when-tags-exist: false
-          tag: 'latest,capstone
+          tag: 'latest,capstone'
