@@ -5,20 +5,20 @@ orbs:
   kubernetes: circleci/kubernetes@0.11.2
 
 jobs:
-  check-cluster:
-    executor: aws-eks/python3
-    parameters:
-      cluster-name:
-        description: |
-          Name of the EKS cluster
-        type: string
-    steps:
-      - kubernetes/install
-      - aws-eks/update-kubeconfig-with-authenticator:
-          cluster-name: << parameters.cluster-name >>
-      - run:
-          name: test-cluster
-          command: |
+  #check-cluster:
+  #  executor: aws-eks/python3
+  #  parameters:
+  #    cluster-name:
+  #      description: |
+  #        Name of the EKS cluster
+  #      type: string
+  #  steps:
+  #    - kubernetes/install
+  #    - aws-eks/update-kubeconfig-with-authenticator:
+  #        cluster-name: << parameters.cluster-name >>
+  #    - run:
+  #        name: test-cluster
+  #        command: |
             kubectl get services
 
   deploy-application:
@@ -73,12 +73,12 @@ jobs:
 workflows:
   main:
     jobs:
-      - aws-eks/create-cluster:
-          cluster-name: capstone
-      - check-cluster:
-          cluster-name: capstone
-          requires:
-            - aws-eks/create-cluster
+      #- aws-eks/create-cluster:
+      #    cluster-name: capstone
+      #- check-cluster:
+      #    cluster-name: capstone
+      #    requires:
+      #      - aws-eks/create-cluster
       - aws-ecr/build-and-push-image:
           aws-access-key-id: AWS_ACCESS_KEY_ID
           aws-secret-access-key: AWS_SECRET_ACCESS_KEY
