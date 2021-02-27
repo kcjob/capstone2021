@@ -8,16 +8,16 @@ workflows:
   build_and_push_image:
     jobs:
       - aws-ecr/build-and-push-image:
-          account-url: AWS_ECR_ACCOUNT_URL
-          aws-access-key-id: AWS_ACCESS_KEY_ID
-          aws-secret-access-key: AWS_SECRET_ACCESS_KEY
+          account-url: $AWS_ECR_ACCOUNT_URL
+          aws-access-key-id: $AWS_ACCESS_KEY_ID
+          aws-secret-access-key: $AWS_SECRET_ACCESS_KEY
           #context: myContext
           create-repo: true
           dockerfile: Dockerfile
           path: .circleci/dockerstuff
           no-output-timeout: 20m
           profile-name: circleci
-          region: AWS_REGION
+          region: $AWS_REGION
           repo: capstone
           skip-when-tags-exist: false
           tag: 'latest,capstone'
