@@ -14,7 +14,8 @@ jobs:
           command: |
             pwd
             ls -la
-            #cd ~/k8s
+            cd /home/circleci/project/k8s
+            aws eksctl create cluster -f cluster.yaml
 
 workflows:
   main:
