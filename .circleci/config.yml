@@ -9,6 +9,8 @@ jobs:
     executor: aws-eks/python3
     steps:
       - checkout
+      - add_ssh_keys:
+          fingerprints: ["a3:27:68:1c:b4:68:20:dd:2a:d7:5e:79:3d:06:77:46"]
       - run:
           name: create cluster
           command: |
