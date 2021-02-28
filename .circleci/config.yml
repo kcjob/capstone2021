@@ -12,8 +12,10 @@ jobs:
       - add_ssh_keys:
           fingerprints: ["a3:27:68:1c:b4:68:20:dd:2a:d7:5e:79:3d:06:77:46"]
       - run:
-          name: create cluster
+          name: install eksctl
           command: |
+            sudo apt install ansible
+
             curl --silent --location "https://github.com/weaveworks/eksctl/releases/latest/download/eksctl_$(uname -s)_amd64.tar.gz" | tar xz -C /tmp
             sudo mv /tmp/eksctl /usr/local/bin
 
