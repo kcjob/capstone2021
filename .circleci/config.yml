@@ -12,24 +12,9 @@ jobs:
       - run:
           name: show variables
           command: |
-            CLUSTER_NAME="my-eks-demo"
+            pwd
+            cd ~/k8s
 
-            VERBOSE="3"
-            if [ -n "${CLUSTER_NAME}" ]; then
-              set -- "$@" --name "${CLUSTER_NAME}"
-              echo "cluster name: " ${CLUSTER_NAME}
-            fi
-            if [ -n "${AWS_REGION}" ]; then
-              set -- "$@" --region "${AWS_REGION}"
-              echo "aws region: " ${AWS_REGION}
-            fi
-            if [ -n "${AWS_PROFILE}" ]; then
-              set -- "$@" --profile="${AWS_PROFILE}"
-              echo "aws profile: " ${AWS_PROFILE}
-            fi
-            set -- "$@" --verbose ${VERBOSE}
-
-            echo "my variables: " ${@}
 workflows:
   main:
     jobs:
