@@ -13,7 +13,8 @@ jobs:
           name: show variables
           command: |
             pwd
-            cd ~/k8s
+            ls -la
+            #cd ~/k8s
 
 workflows:
   main:
