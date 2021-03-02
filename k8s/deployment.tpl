@@ -1,4 +1,4 @@
-apiVersion: apps/v1beta1
+apiVersion: apps/v1 #beta1
 kind: Deployment
 metadata:
   name: capstone
@@ -16,7 +16,7 @@ spec:
         app: webapp
     spec:
       containers:
-      - image: capstone/hello:latest
-        ports:
-        - containerPort: 8000
-          name: webapp
+        - name: webapp
+          image: capstone/capstone:${CIRCLE_SHA1}
+          ports:
+          - containerPort: 8000
